@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
@@ -16,7 +17,9 @@ public interface ProductFeignClient {
 
     @GetMapping("/api/v1/products")
     GetProductInfoResponseDto searchProduct(
-            @SpringQueryMap SearchProductQueryDto request
+            @SpringQueryMap SearchProductQueryDto request,
+            @RequestHeader("X-client-userId") Long userId,
+            @RequestHeader("X-client-role") String role
     );
 
 }

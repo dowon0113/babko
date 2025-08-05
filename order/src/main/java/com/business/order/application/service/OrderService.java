@@ -48,6 +48,9 @@ public class OrderService {
     private final ProductFeignClient productFeignClient;
     private final CompanyFeignClient companyFeignClient;
 
+    /*
+    * 주문 생성
+    * */
     @Transactional
     public OrderCreateResponseDto createOrder(OrderCreateRequestDto request, Long userId, String role){
         log.info("주문 생성 요청 시작 - userId: {}, request: {}", userId, request);
@@ -64,7 +67,7 @@ public class OrderService {
 
             GetProductInfoResponseDto response;
             try {
-                response = productFeignClient.searchProduct(queryDto);
+                response = productFeignClient.searchProduct(queryDto, userId, role);
             } catch (FeignException e) {
                 throw new BusinessLogicException(OrderExceptionCode.PRODUCT_NOT_FOUND);
             }
@@ -93,8 +96,8 @@ public class OrderService {
         UUID supplierId = items.get(0).getSupplierId();
         UUID receiverId = request.getReceiverId();
 
-        UUID originHubId = extractHubIdByCompanyId(CompanyType.SUPPLIER, supplierId);
-        UUID destinationHubId = extractHubIdByCompanyId(CompanyType.RECEIVER, receiverId);
+        UUID originHubId = extractHubIdByCompanyId(CompanyType.SUPPLIER, supplierId, userId, role);
+        UUID destinationHubId = extractHubIdByCompanyId(CompanyType.RECEIVER, receiverId, userId, role);
 
         Order order = request.createOrder(userId, originHubId, destinationHubId);
 
@@ -105,24 +108,26 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        OrderDeliveryRequestDto deliveryRequest = OrderDeliveryRequestDto.fromOrder(savedOrder);
+//        OrderDeliveryRequestDto deliveryRequest = OrderDeliveryRequestDto.fromOrder(savedOrder);
 
-        CreateDeliveryRequestDto deliveryFeignRequest = DeliveryMapper.toCreateDeliveryRequestDto(deliveryRequest);
+//        CreateDeliveryRequestDto deliveryFeignRequest = DeliveryMapper.toCreateDeliveryRequestDto(deliveryRequest);
+//
+//        log.info("배송 요청 생성 - Feign에 전달될 최종 값: {}", deliveryFeignRequest);
 
-        log.info("배송 요청 생성 - Feign에 전달될 최종 값: {}", deliveryFeignRequest);
-
-        try {
-            deliveryFeignClient.createDelivery(userId, role, deliveryFeignRequest);
-        } catch (FeignException e) {
-            throw new BusinessLogicException(OrderExceptionCode.DELIVERY_REQUEST_FAILED);
-        }
+//        try {
+//            deliveryFeignClient.createDelivery(userId, role, deliveryFeignRequest);
+//        } catch (FeignException e) {
+//            throw new BusinessLogicException(OrderExceptionCode.DELIVERY_REQUEST_FAILED);
+//        }
 
         OrderCreateResponseDto responseDto = OrderMapper.toOrderCreateResponseDto(savedOrder, orderItems);
 
         return responseDto;
     }
 
-
+    /*
+    * 단건 조회
+    * */
     @Transactional(readOnly = true)
     public OrderGetResponseDto getOrder(UUID orderId, Long userId, String role)  {
 
@@ -139,6 +144,9 @@ public class OrderService {
         return OrderMapper.toOrderGetResponse(order);
     }
 
+    /*
+    * 전체 조회 및 검색, 페이징 > N+1 문제 발생 후 개선 시키기
+    * */
     @Transactional(readOnly = true)
     public SearchOrderResponseDto searchOrders(SearchOrderRequestDto request, Pageable pageable, Long userId, String role)  {
         if ("ROLE_COMPANY".equals(role)) {
@@ -150,10 +158,21 @@ public class OrderService {
                 request.getOrderStatus(),
                 pageable
         );
+
+        // 여기서 orderItems에 접근함으로써 N+1 발생 유도
+        orderPage.forEach(order -> {
+            List<OrderItem> items = order.getOrderItems();  // 지연 로딩 발생
+            items.forEach(item -> {
+                log.info("orderId: {}, itemId: {}, productId: {}", order.getOrderId(), item.getOrderItemId(), item.getProductId());
+            });
+        });
+
         return OrderMapper.toSearchOrderResponseDto(orderPage);
     }
 
-    //주문 취소
+    /*
+    * 주문 취소
+    * */
     @Transactional
     public OrderStatusResponseDto cancelOrder(UUID orderId, Long userId, String role) {
         Order order = orderRepository.findById(orderId)
@@ -193,7 +212,7 @@ public class OrderService {
         return OrderMapper.toOrderStatusResponseDto(order);
     }
 
-    private UUID extractHubIdByCompanyId(CompanyType type, UUID targetCompanyId) {
+    private UUID extractHubIdByCompanyId(CompanyType type, UUID targetCompanyId, Long userId, String role) {
         SearchCompanyQueryDto queryDto = new SearchCompanyQueryDto();
         queryDto.setCompanyType(type);
         queryDto.setPage(1);
@@ -201,7 +220,7 @@ public class OrderService {
         queryDto.setOrderBy("CREATED");
         queryDto.setSort("asc");
 
-        GetCompanyInfoResponseDto rawResponse = companyFeignClient.searchCompanies(queryDto);
+        GetCompanyInfoResponseDto rawResponse = companyFeignClient.searchCompanies(queryDto, userId, role);
 
         hubIdResponseDto simplified = RequestMapper.toHubIdResponse(rawResponse);
 

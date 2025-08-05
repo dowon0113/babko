@@ -1,15 +1,14 @@
 ### 1. 업체 생성
-POST http://localhost:8080/api/v1/companies
-Authorization: Bearer jwt_token_string
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlJPTEVfTUFTVEVSIiwiaWF0IjoxNzUzNzk2NjM5LCJleHAiOjE3NTM4MDAyMzl9.re165IUhIml1RL6vGUFcrovWwDKeRJ1yowRYy870-PqVCT4rMKQS-yknERzcRigiDkhKu2dSGTsPIsnU_mukBQ
 Content-Type: application/json
-Accept: application/json
-X-client-userId: 1
+X-client-userId: 2
+POST http://localhost:8087/api/v1/companies
 X-client-role: ROLE_MASTER
 
 {
-  "companyName": "먹태깡 받는회사",
-  "companyAddress": "서울",
+  "companyName": "공급회사(과자)",
+  "companyAddress": "부산",
   "companyType": "SUPPLIER",
-  "hubId": "13a1ca90-5a81-4f2e-b426-5b2d05dd5cfd",
+  "hubId": "ccb9f734-d103-4590-b89f-95c56728c01f",
   "companyManagerId": 1
 }

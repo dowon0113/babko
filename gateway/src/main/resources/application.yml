@@ -18,7 +18,7 @@ spring:
         - id: company-service
           uri: lb://company-service
           predicates:
-            - Path=/api/v1/companys/**
+            - Path=/api/v1/companies/**
 
         - id: hub-service
           uri: lb://hub-service
@@ -59,11 +59,18 @@ spring:
         locator:
           enabled: true
 
+server:
+  port: 8080
 
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
 
 jwt:
   secret: Y3ABAoKZRG+IuTqq5jYUBgPoDR3wKgfHS66yYoTM325liBDiQB1dvSLhTDTfZR77OAUovalSHqJJ+4FXAvu79w==

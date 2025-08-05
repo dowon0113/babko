@@ -6,6 +6,7 @@ import com.business.order.infrastructure.dto.response.GetCompanyInfoResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "company-service", url = "http://localhost:8087")
@@ -13,7 +14,9 @@ public interface CompanyFeignClient {
 
     @GetMapping("/api/v1/companies")
     GetCompanyInfoResponseDto searchCompanies(
-            @SpringQueryMap SearchCompanyQueryDto request
+            @SpringQueryMap SearchCompanyQueryDto request,
+            @RequestHeader("X-client-userId") Long userId,
+            @RequestHeader("X-client-role") String role
     );
 
 }

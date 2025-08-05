@@ -4,6 +4,7 @@ import com.business.common.domain.entity.BaseDataEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class Order extends BaseDataEntity {
     private OrderStatus orderStatus= OrderStatus.CREATED;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    @BatchSize(size = 100)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Builder

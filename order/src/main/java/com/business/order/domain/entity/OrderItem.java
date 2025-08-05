@@ -33,7 +33,7 @@ public class OrderItem extends BaseDataEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Order order;//외래키가 있는 곳을 주인으로 정해라. 여기가 연관관계의 주인임. 업데이트 시 쿼리가 OrderItem 테이블로 나가야함(?)
 
     @Builder
     public OrderItem(Order order, UUID productId, UUID supplierId, Integer orderItemAmount,
