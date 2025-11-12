@@ -291,11 +291,26 @@ API Statistics
 ### 잘한점
 ![image](https://github.com/user-attachments/assets/c2510225-852f-483f-b52b-4ffd22c260f4)
 
-### 아쉬웠던 점
-![image](https://github.com/user-attachments/assets/86ae7c3d-fc71-4279-93ab-b6e710a7f5c4)
+### 핵심도메인 설정을 위한 개발 flow
+![image](https://github.com/user-attachments/assets/0b501f97-2a3a-4d46-966a-f148535f2fae)
 
-### 고도화
-![image](https://github.com/user-attachments/assets/9abdb103-0346-4ebb-881f-374efa036aa1)
+
+<br><br><br><br><br>
+
+### 핵심도메인 리팩토링
+
+![도메인 다이어그램-전체 flow](https://github.com/user-attachments/assets/efc623d5-4aa0-429a-a908-1ea0eaea6100)
+
+<br><br><br><br><br>
+
+### FeignClient 외부 통신
+
+
+![image](https://github.com/user-attachments/assets/c33cdb9d-5a3b-4924-be72-1e515c394c93)
+![image](https://github.com/user-attachments/assets/028c842c-cd05-4041-be49-ce377940b219)
+![image](https://github.com/user-attachments/assets/af160557-26e8-4787-91a8-b7da7bc8793d)
+![image](https://github.com/user-attachments/assets/ebb5f9a0-b961-4394-a84b-7f581759f297)
+![image](https://github.com/user-attachments/assets/f298f1d1-641c-4e80-906f-dbf791b547b5)
 
 
 
