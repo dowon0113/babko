@@ -19,7 +19,7 @@
 ## 팀원 소개
 ![단체샷](https://github.com/user-attachments/assets/bf9676d9-c205-46e4-9155-5f5e6427b508)
 
-| [김도원](https://github.com/dowon0113) | [노현지](https://github.com/nodajida) | [송예지](https://github.com/yejiscore) | [안중건](https://github.com/AnJungGeon) | [정다예](https://github.com/Jungdaye89) |
+| [김도원-팀장](https://github.com/dowon0113) | [노현지](https://github.com/nodajida) | [송예지](https://github.com/yejiscore) | [안중건](https://github.com/AnJungGeon) | [정다예](https://github.com/Jungdaye89) |
 | --- | --- | --- | --- | --- |
 | <a href="https://github.com/dowon0113"><img height="170px" width="150px" src="https://github.com/user-attachments/assets/5faed894-3b56-49ae-8022-993aba3cda9f"/></a> | <a href="https://github.com/nodajida"><img height="170px" width="150px" src="https://github.com/user-attachments/assets/c504b0e2-1e62-4851-b983-2d8457e78d18"/></a> | <a href="https://github.com/yejiscore"><img height="220px" width="140px" src="https://github.com/user-attachments/assets/9fb4e72d-c93a-4405-bace-17cc068b6e57"/></a> | <a href="https://github.com/AnJungGeon"><img height="170px" width="150px" src="https://github.com/user-attachments/assets/b6a775a8-a651-42b7-9597-fd81ca9bff39"/></a> | <a href="https://github.com/Jungdaye89"><img height="170px" width="150px" src="https://github.com/user-attachments/assets/ec27002f-e35e-43ec-88f3-c4d9e5725ecb"/></a> |
 | 주문, 주문 아이템 | Auth, User | 업체, 상품 | 허브, 허브 간 이동 | 배송, 배송 경로, 배송 담당자 |
